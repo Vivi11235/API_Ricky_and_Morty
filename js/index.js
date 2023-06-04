@@ -91,7 +91,7 @@ function createFooter() {
         });
     }
 
-    if (grupoFinal > grupoAtual) {
+    /*if (grupoFinal > grupoAtual) {
         const ellipsis = document.createElement("span");
         ellipsis.classList.add("paginador");
         ellipsis.innerHTML = "...";
@@ -110,7 +110,7 @@ function createFooter() {
         nextGroup.appendChild(nextGroupButton);
 
         div.appendChild(nextGroup);
-    }
+    }*/
 }
 
 agruparPaginas();
