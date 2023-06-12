@@ -1,37 +1,38 @@
-let paginaAtual = 1;
 let paginas = 0;
-const itensPorPagina = 7;
-const botaoPorGrupo = 7;
+let characters = [];
+let paginacao = 6;
+let contador = 0;
+let botao = 0;
 
-
-async function agruparPaginas() {
-    const response = await apiConfig.get('/character');
-    paginas = response.data.info.pages;
-
-    createFooter();
-
-    pegarPaginas(paginaAtual);
-}
-
-
-agruparPaginas()
-
-async function pegarPaginas(page) {
-    const response = await axios.get(`https://rickandmortyapi.com/api/character/?page=${page}`);
-
-    characters = response.data.results;
-
-    const main = document.getElementById('main');
-    main.innerHTML = ''; 
-
-    for (let i = 0; i < characters.length; i++) {
+async function pegarPersonagens(page) {
+    try {
+      const url = page ? `https://rickandmortyapi.com/api/character?page=${page}` : 'https://rickandmortyapi.com/api/character';
+  
+      const response = await apiConfig.get(url);
+      characters = response.data.results;
+      paginas = response.data.info.pages;
+  
+      const main = document.getElementById('main');
+      main.innerHTML = '';
+  
+      for (let i = 0; i < characters.length; i++) {
         createCard(i);
-    }
-}
+      }
 
+     
+  
+    selecionarRodape(page);
+    } catch (error) {
+      console.error('Erro ao buscar personagens:', error);
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', function () {
+    pegarPersonagens(1);
+  });
+  
 
 function createCard(i){
-
 
     const main = document.getElementById('main');
     const div = document.createElement("div");
@@ -63,54 +64,101 @@ function createCard(i){
     
 }
 
-function createFooter() {
-    const footer = document.getElementById('footer');
-    footer.innerHTML = ''; 
+function selecionarRodape(page) {
+  const footer = document.getElementById('footer');
+  footer.innerHTML = '';
+  const div = document.createElement('div');
+  footer.appendChild(div);
+  div.classList.add('container2');
 
-    const div = document.createElement("div");
-    footer.appendChild(div);
-    div.classList.add("container2");
+  if (page >= 1 && page <= 6) {
+    contador = 1
+  }
 
-    const totalPaginas = Math.ceil(paginas / itensPorPagina);
-    const grupoAtual = Math.ceil(paginaAtual / botaoPorGrupo);
-    const grupoFinal = Math.ceil(totalPaginas / botaoPorGrupo);
-    const inicioGrupo = (grupoAtual - 1) * botaoPorGrupo + 1;
-    const fimGrupo = Math.min(grupoAtual * botaoPorGrupo, totalPaginas);
+  if (page == 6) {
+    contador = contador + 6;
+    paginacao = paginacao + 6;
+  }
 
-    for (let numero = inicioGrupo; numero <= fimGrupo; numero++) {
-        const numerador = document.createElement("div");
-        div.appendChild(numerador);
-        numerador.classList.add("paginador");
-        const botao = document.createElement("button");
-        numerador.appendChild(botao);
-        botao.innerHTML = `${numero}`;
-        botao.addEventListener("click", () => {
-            paginaAtual = numero;
-            pegarPaginas(paginaAtual);
-            createFooter();
-        });
-    }
+  if (page == 7) {
+    contador = contador - 6;
+    paginacao = paginacao - 6;
+  }
 
-    /*if (grupoFinal > grupoAtual) {
-        const ellipsis = document.createElement("span");
-        ellipsis.classList.add("paginador");
-        ellipsis.innerHTML = "...";
-        div.appendChild(ellipsis);
+  if (page == 12) {
+    contador = contador + 6;
+    paginacao = paginacao + 6;
+  }
 
-        const nextGroup = document.createElement("div");
-        nextGroup.classList.add("paginador");
+  if (page == 13) {
+    contador = contador - 6;
+    paginacao = paginacao - 6;
+  }
 
-        const nextGroupButton = document.createElement("button");
-        nextGroupButton.innerHTML = `${fimGrupo + 1}`;
-        nextGroupButton.addEventListener("click", () => {
-            paginaAtual = grupoAtual * botaoPorGrupo + 1;
-            createFooter();
-            pegarPaginas(paginaAtual);
-        });
-        nextGroup.appendChild(nextGroupButton);
+  if (page==18) {
+    contador = contador + 6;
+    paginacao = paginacao + 6;
+  } 
 
-        div.appendChild(nextGroup);
-    }*/
+  if (page == 19) {
+    contador = contador - 6;
+    paginacao = paginacao - 6;
+  }
+
+  if (page==24) {
+    contador = contador + 6;
+    paginacao = paginacao + 6;
+  } 
+
+  if (page == 25) {
+    contador = contador - 6;
+    paginacao = paginacao - 6;
+  }
+
+  if (page==30) {
+    contador = contador + 6;
+    paginacao = paginacao + 6;
+  }
+
+  if (page == 31) {
+    contador = contador - 6;
+    paginacao = paginacao - 6;
+  }
+
+
+  if (page==36) {
+    contador = contador + 6;
+    paginacao = paginacao + 6;
+  }
+
+  if (page==37) {
+    contador = contador - 6;
+    paginacao = paginacao - 6;
+  }
+
+  for (let numero = contador; numero <= paginacao; numero++) {
+    (function (numero) {
+      const numerador = document.createElement('div');
+      div.appendChild(numerador);
+      numerador.classList.add('paginador');
+      botao = document.createElement('button');
+      numerador.appendChild(botao);
+      botao.innerHTML = `${numero}`;
+      botao.addEventListener('click', function () {
+        pegarPersonagens(numero); 
+      });
+    })(numero);
+  }
+  
 }
 
-agruparPaginas();
+
+
+
+
+
+
+
+
+
+
