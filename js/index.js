@@ -65,75 +65,32 @@ function createCard(i){
 }
 
 function selecionarRodape(page) {
+
+  let contadorFinal = paginas - page;
+  
   const footer = document.getElementById('footer');
   footer.innerHTML = '';
   const div = document.createElement('div');
   footer.appendChild(div);
   div.classList.add('container2');
 
-  if (page >= 1 && page <= 6) {
+  if (page >= 1 && page <= 6&&contadorFinal>=6) {
     contador = 1
   }
 
-  if (page == 6) {
-    contador = contador + 6;
-    paginacao = paginacao + 6;
+  if (page%6==0&&contadorFinal>=6) {
+    contador += 6;
+    paginacao += 6;
   }
 
-  if (page == 7) {
-    contador = contador - 6;
-    paginacao = paginacao - 6;
+  if (page%6==1&&page!==1) {
+    contador -= 6;
+    paginacao -= 6;
   }
 
-  if (page == 12) {
-    contador = contador + 6;
-    paginacao = paginacao + 6;
-  }
-
-  if (page == 13) {
-    contador = contador - 6;
-    paginacao = paginacao - 6;
-  }
-
-  if (page==18) {
-    contador = contador + 6;
-    paginacao = paginacao + 6;
-  } 
-
-  if (page == 19) {
-    contador = contador - 6;
-    paginacao = paginacao - 6;
-  }
-
-  if (page==24) {
-    contador = contador + 6;
-    paginacao = paginacao + 6;
-  } 
-
-  if (page == 25) {
-    contador = contador - 6;
-    paginacao = paginacao - 6;
-  }
-
-  if (page==30) {
-    contador = contador + 6;
-    paginacao = paginacao + 6;
-  }
-
-  if (page == 31) {
-    contador = contador - 6;
-    paginacao = paginacao - 6;
-  }
-
-
-  if (page==36) {
-    contador = contador + 6;
-    paginacao = paginacao + 6;
-  }
-
-  if (page==37) {
-    contador = contador - 6;
-    paginacao = paginacao - 6;
+  if(contadorFinal<6&&page!==paginas&&page%6!==1){
+    contador = contador + contadorFinal;
+    paginacao = paginacao + contadorFinal;
   }
 
   for (let numero = contador; numero <= paginacao; numero++) {
